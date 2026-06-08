@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>3D MODELY — Strážce úrody</title>
     
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -361,10 +364,9 @@
             color: var(--text-muted);
         }
 
-        /* EXKLUZIVNÍ ZLATÝ ODKAZ PRO CUCKOO SIGNATURU */
         .cuckoo-signature {
             font-family: var(--font-display);
-            color: #b59453; /* Luxusní sytá zlatá pro prémiový kontrast na bílé */
+            color: #b59453; 
             font-weight: 700;
             letter-spacing: 2px;
             text-decoration: none;
@@ -372,7 +374,7 @@
         }
 
         .cuckoo-signature:hover {
-            color: var(--brand-primary); /* Hladký přechod do tvé zelené při najetí prstu */
+            color: var(--brand-primary); 
         }
 
         @media (min-width: 768px) {
@@ -550,8 +552,9 @@
                     }, 400);
                 });
 
-                viewer.addEventListener('error', () => {
+                viewer.addEventListener('error', (err) => {
                     clearInterval(fakeInterval);
+                    console.error("Chyba při načítání modelu:", err);
                     if (percentText) {
                         percentText.textContent = `CHYBA DAT`;
                         percentText.style.color = '#ff3333';
