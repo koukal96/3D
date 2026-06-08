@@ -28,7 +28,7 @@
             
             --font-display: 'Cinzel', serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
-            --max-width: 1200px; /* Šířka pro PC */
+            --max-width: 1200px;
         }
 
         * {
@@ -48,7 +48,6 @@
             letter-spacing: -0.01em;
         }
         
-        /* Centrování obsahu na PC */
         body {
             max-width: var(--max-width);
             margin: 0 auto;
@@ -64,10 +63,10 @@
             gap: 40px; 
         }
 
-        /* --- NOVÉ VELKÉ LOGO (Záhlaví) --- */
+        /* --- ZÁHLAVÍ S LOGEM VLEVO --- */
         header {
             display: flex;
-            justify-content: center; /* Vycentrování na střed */
+            justify-content: space-between;
             align-items: center;
             width: 100%;
             padding-bottom: 20px;
@@ -75,31 +74,48 @@
             z-index: 10;
         }
 
-        .large-logo-link {
+        .brand-logo {
             display: flex;
-            justify-content: center;
-            width: 100%;
+            align-items: center;
+            gap: 12px;
             text-decoration: none;
-            transition: transform 0.3s ease;
-        }
-        
-        .large-logo-link:hover {
-            transform: scale(1.02);
+            color: var(--text-main);
         }
 
-        .large-logo {
-            max-width: 280px; /* Základní velikost pro mobily */
-            height: auto;
+        .header-logo {
+            height: 30px; 
+            width: auto;
             object-fit: contain;
         }
 
-        /* Větší logo na počítači */
-        @media (min-width: 768px) {
-            .large-logo {
-                max-width: 400px; 
-            }
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
+        .brand-title span {
+            color: var(--brand-primary);
+        }
+
+        .web-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .web-link:hover {
+            color: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+
+        /* --- GALERIE MODELŮ --- */
         .gallery {
             flex-grow: 1;
             display: flex;
@@ -151,7 +167,7 @@
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.06), inset 0 0 20px rgba(0,0,0,0.02);
             overflow: hidden;
-            margin: 0 auto; /* Vycentrování rámečku s modelem */
+            margin: 0 auto; 
         }
 
         model-viewer {
@@ -267,17 +283,19 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
-        /* --- PATIČKA --- */
+        /* --- NOVĚ VYLADĚNÁ PATIČKA (MOBILNÍ ZÁKLAD) --- */
         footer {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 24px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Vše na střed pro mobil */
+            text-align: center;
+            gap: 24px;
             width: 100%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.04);
             z-index: 10;
@@ -286,13 +304,15 @@
         .footer-identity {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 4px;
         }
 
         .author-name {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 600;
             letter-spacing: -0.02em;
+            color: var(--text-main);
         }
 
         .author-title {
@@ -300,22 +320,24 @@
             color: var(--brand-primary);
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .footer-contacts {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            gap: 12px;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             transition: color 0.2s ease;
             font-weight: 500;
         }
@@ -327,15 +349,17 @@
         .contact-item span {
             color: var(--brand-primary);
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .footer-credit {
             border-top: 1px solid var(--border-color);
-            padding-top: 16px;
+            padding-top: 20px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column; /* Na mobilu pod sebou */
+            gap: 12px;
             align-items: center;
+            width: 100%;
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -358,18 +382,39 @@
         /* --- OPTIMALIZACE PRO POČÍTAČ (PC) --- */
         @media (min-width: 768px) {
             .app-container { padding: 40px; gap: 60px; }
-            .viewer-container { height: 60vh; max-width: 100%; } /* Zvětšený kontejner pro model */
+            .header-logo { height: 45px; } 
+            .viewer-container { height: 60vh; max-width: 100%; } 
             .model-heading { font-size: 3.5rem; letter-spacing: 12px; }
             .gallery { gap: 100px; }
             
-            /* Patička vedle sebe místo pod sebou */
+            /* Patička na PC do mřížky - zarovnání ke stranám */
             footer {
+                display: grid;
                 grid-template-columns: 1fr 1fr;
-                align-items: center;
-                padding: 32px;
+                text-align: left;
+                padding: 40px;
             }
-            .footer-credit { grid-column: span 2; }
-            .footer-contacts { align-items: flex-end; }
+            
+            .footer-identity {
+                align-items: flex-start;
+            }
+
+            .footer-contacts {
+                align-items: flex-end;
+            }
+
+            .contact-item {
+                justify-content: flex-end;
+            }
+
+            /* Spodní čára s copyrightem a podpisem vedle sebe */
+            .footer-credit {
+                grid-column: span 2;
+                flex-direction: row;
+                justify-content: space-between;
+                padding-top: 24px;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -378,9 +423,11 @@
     <div class="app-container">
         
         <header>
-            <a href="https://www.strazce-urody.cz" class="large-logo-link" target="_blank">
-                <img src="logo.PNG" alt="Logo Strážce Úrody" class="large-logo" onerror="this.style.display='none'">
+            <a href="https://www.strazce-urody.cz" class="brand-logo" target="_blank">
+                <img src="logo.PNG" alt="Logo Strážce Úrody" class="header-logo" onerror="this.style.display='none'">
+                <div class="brand-title">3D <span>Modely</span></div>
             </a>
+            <a href="https://www.strazce-urody.cz" class="web-link" target="_blank">strazce-urody.cz</a>
         </header>
 
         <div class="gallery">
