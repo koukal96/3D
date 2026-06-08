@@ -9,12 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-
     <script>
         self.ModelViewerElement = self.ModelViewerElement || {};
-        self.ModelViewerElement.meshoptDecoderLocation = 'https://unpkg.com/meshoptimizer/meshopt_decoder.js';
+        self.ModelViewerElement.meshoptDecoderLocation = 'https://cdn.jsdelivr.net/npm/meshoptimizer/meshopt_decoder.js';
     </script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <style>
         :root {
@@ -424,7 +423,7 @@
                     </div>
 
                     <model-viewer 
-                        src="verovany.glb" 
+                        src="v.glb" 
                         alt="3D model Kostel svatého Tomáše z Canterbury"
                         camera-controls 
                         auto-rotate 
@@ -463,7 +462,7 @@
                     </div>
 
                     <model-viewer 
-                        src="v.glb" 
+                        src="verovany.glb" 
                         alt="3D model Control Point"
                         camera-controls 
                         auto-rotate 
