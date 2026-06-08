@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>3D MODELY — Strážce úrody</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-
     <script>
         self.ModelViewerElement = self.ModelViewerElement || {};
         self.ModelViewerElement.meshoptDecoderLocation = 'https://unpkg.com/meshoptimizer/meshopt_decoder.js';
@@ -24,546 +20,87 @@
             --bg-light: #ffffff; 
             --panel-bg: rgba(255, 255, 255, 0.85);
             --brand-primary: #8CC63F; 
-            --brand-primary-dim: rgba(140, 198, 63, 0.15);
-            
             --text-main: #121212;
             --text-muted: #666666;
             --border-color: rgba(0, 0, 0, 0.08);
-            
             --font-display: 'Cinzel', serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body, html { width: 100%; height: 100%; background-color: var(--bg-light); color: var(--text-main); font-family: var(--font-sans); }
+        .app-container { min-height: 100dvh; display: flex; flex-direction: column; padding: 24px; gap: 40px; }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            overflow-x: hidden;
-            letter-spacing: -0.01em;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+        .brand-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
+        .brand-title span { color: var(--brand-primary); }
+        
+        .gallery { display: flex; flex-direction: column; gap: 60px; }
+        .showroom-section { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        
+        .viewer-container { position: relative; width: 100%; max-width: 900px; height: 50vh; min-height: 400px; border: 1px solid var(--border-color); border-radius: 24px; overflow: hidden; }
+        model-viewer { width: 100%; height: 100%; }
 
-        .app-container {
-            position: relative;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--bg-light);
-            padding: 24px;
-            gap: 40px; 
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            z-index: 10;
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-main);
-        }
-
-        .logo-placeholder {
-            width: 36px;
-            height: 36px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .logo-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .brand-title {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .brand-title span {
-            color: var(--brand-primary);
-        }
-
-        .web-link {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .web-link:hover {
-            color: var(--brand-primary);
-            border-color: var(--brand-primary);
-        }
-
-        .gallery {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 60px; 
-            padding-top: 20px;
-            padding-bottom: 40px;
-        }
-
-        .showroom-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .model-title-wrapper {
-            text-align: center;
-            margin-bottom: 24px;
-            width: 100%;
-        }
-
-        .model-heading {
-            font-family: var(--font-display);
-            font-size: 2.2rem;
-            font-weight: 600;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: var(--text-main);
-        }
-
-        .model-subheading {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--brand-primary);
-            margin-top: 6px;
-            font-weight: 600;
-        }
-
-        .viewer-container {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            height: 50vh;
-            min-height: 400px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.06), inset 0 0 20px rgba(0,0,0,0.02);
-            overflow: hidden;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            outline: none;
-            --poster-color: transparent;
-            --progress-bar-color: transparent;
-            --progress-bar-height: 0px;
-        }
-
-        .partner-link {
-            margin-top: 16px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .partner-link:hover {
-            color: var(--brand-primary);
-        }
-
-        .custom-loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-            z-index: 5;
-            width: 80%;
-            max-width: 200px;
-        }
-
-        .spinner {
-            width: 36px;
-            height: 36px;
-            border: 2px solid var(--border-color);
-            border-top: 2px solid var(--brand-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 4px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loader-text {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .progress-percent {
-            color: var(--brand-primary);
-            font-weight: 700;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 2px;
-            background: var(--border-color);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--brand-primary);
-            transition: width 0.2s ease-out;
-        }
-
-        .ar-trigger-btn {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .ar-trigger-btn:hover {
-            border-color: var(--brand-primary);
-            color: var(--brand-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-        }
-
-        footer {
-            background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            z-index: 10;
-        }
-
-        .footer-identity {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .author-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-
-        .author-title {
-            font-size: 0.75rem;
-            color: var(--brand-primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
-
-        .footer-contacts {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s ease;
-            font-weight: 500;
-        }
-
-        .contact-item:hover {
-            color: var(--text-main);
-        }
-
-        .contact-item span {
-            color: var(--brand-primary);
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .footer-credit {
-            border-top: 1px solid var(--border-color);
-            padding-top: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-        }
-
-        .cuckoo-signature {
-            font-family: var(--font-display);
-            color: #b59453; 
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .cuckoo-signature:hover {
-            color: var(--brand-primary); 
-        }
-
-        @media (min-width: 768px) {
-            .app-container { padding: 40px; gap: 60px; }
-            .viewer-container { height: 60vh; }
-            .model-heading { font-size: 3.5rem; letter-spacing: 12px; }
-            .gallery { gap: 100px; }
-            footer {
-                grid-template-columns: 1fr 1fr;
-                align-items: center;
-                padding: 32px;
-            }
-            .footer-credit { grid-column: span 2; }
-            .footer-contacts { align-items: flex-end; }
-        }
+        .custom-loader { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; width: 80%; }
+        .spinner { width: 36px; height: 36px; border: 2px solid var(--border-color); border-top: 2px solid var(--brand-primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .progress-track { width: 100%; height: 2px; background: var(--border-color); margin-top: 10px; }
+        .progress-fill { width: 0%; height: 100%; background: var(--brand-primary); transition: width 0.2s; }
+        
+        .ar-trigger-btn { position: absolute; bottom: 20px; right: 20px; background: var(--panel-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-color); padding: 12px 20px; border-radius: 12px; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; font-weight: 600; }
+        
+        footer { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; text-align: center; }
+        .cuckoo-signature { font-family: var(--font-display); color: #b59453; font-weight: 700; text-decoration: none; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        
         <header>
-            <a href="https://www.strazce-urody.cz" class="brand-logo" target="_blank">
-                <div class="logo-placeholder">
-                    <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
-                </div>
-                <div class="brand-title">3D <span>Modely</span></div>
-            </a>
-            <a href="https://www.strazce-urody.cz" class="web-link" target="_blank">strazce-urody.cz</a>
+            <div class="brand-title">3D <span>Modely</span></div>
         </header>
 
         <div class="gallery">
-            
             <section class="showroom-section">
-                <div class="model-title-wrapper">
-                    <h2 class="model-heading">Mohelnice</h2>
-                    <div class="model-subheading">Interaktivní 3D Replikace</div>
-                </div>
-
                 <div class="viewer-container">
-                    <div class="custom-loader">
-                        <div class="spinner"></div>
-                        <div class="loader-text">
-                            <span>Načítání...</span>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill"></div>
-                        </div>
-                    </div>
-
-                    <model-viewer 
-                        src="mohelnice.glb" 
-                        alt="3D model Kostel svatého Tomáše z Canterbury"
-                        camera-controls 
-                        auto-rotate 
-                        interaction-prompt="none"
-                        shadow-intensity="1" 
-                        shadow-softness="0.5"
-                        exposure="1"
-                        environment-image="neutral"
-                        loading="eager"
-                        ar
-                        ar-modes="webxr scene-viewer quick-look">
-                        
-                        <button class="ar-trigger-btn" slot="ar-button" onclick="this.parentElement.activateAR()">
-                            Zobrazit v AR
-                        </button>
+                    <div class="custom-loader"><div class="spinner"></div><div class="progress-track"><div class="progress-fill"></div></div></div>
+                    <model-viewer src="/3D/mohelnice.glb" camera-controls auto-rotate loading="eager" ar>
+                        <button class="ar-trigger-btn" slot="ar-button">Zobrazit v AR</button>
                     </model-viewer>
                 </div>
             </section>
 
             <section class="showroom-section">
-                <div class="model-title-wrapper">
-                    <h2 class="model-heading">Věrovany </h2>
-                    <div class="model-subheading">Logistický areál Control Point s.r.o.</div>
-                </div>
-
                 <div class="viewer-container">
-                    <div class="custom-loader">
-                        <div class="spinner"></div>
-                        <div class="loader-text">
-                            <span>Načítání...</span>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill"></div>
-                        </div>
-                    </div>
-
-                    <model-viewer 
-                        src="verovany.glb" 
-                        alt="3D model Control Point"
-                        camera-controls 
-                        auto-rotate 
-                        interaction-prompt="none"
-                        shadow-intensity="1.5" 
-                        camera-orbit="20deg 50deg 250%"
-                        min-camera-orbit="auto auto 90deg"
-                        exposure="1"
-                        environment-image="neutral"
-                        loading="eager"
-                        ar
-                        ar-modes="webxr scene-viewer quick-look">
-                        
-                        <button class="ar-trigger-btn" slot="ar-button" onclick="this.parentElement.activateAR()">
-                            Zobrazit v AR
-                        </button>
+                    <div class="custom-loader"><div class="spinner"></div><div class="progress-track"><div class="progress-fill"></div></div></div>
+                    <model-viewer src="/3D/verovany.glb" camera-controls auto-rotate loading="eager" ar>
+                        <button class="ar-trigger-btn" slot="ar-button">Zobrazit v AR</button>
                     </model-viewer>
                 </div>
-                <a href="https://www.control-point.eu" target="_blank" class="partner-link">Areál společnosti www.control-point.eu</a>
             </section>
-
         </div>
 
         <footer>
-            <div class="footer-identity">
-                <div class="author-name">Bc. Jan Koukal</div>
-                <div class="author-title">Strážce úrody</div>
-            </div>
-
-            <div class="footer-contacts">
-                <a href="tel:+420604353393" class="contact-item">
-                    <span>TEL</span> +420 604 353 393
-                </a>
-                <a href="mailto:koukal@strazce-urody.cz" class="contact-item">
-                    <span>EMAIL</span> koukal@strazce-urody.cz
-                </a>
-            </div>
-
-            <div class="footer-credit">
-                <div>© 2026 Strážce Úrody</div>
-                <div>Vytvořeno by <a href="https://koukal96.github.io/Cuckoo/" target="_blank" class="cuckoo-signature">Cuckoo</a></div>
-            </div>
+            <div style="margin-bottom:10px">Bc. Jan Koukal</div>
+            <div>Vytvořeno by <a href="https://koukal96.github.io/Cuckoo/" class="cuckoo-signature">Cuckoo</a></div>
         </footer>
-
     </div>
 
     <script>
         document.querySelectorAll('model-viewer').forEach(viewer => {
-            const loader = viewer.previousElementSibling;
-            
-            if (loader && loader.classList.contains('custom-loader')) {
-                const percentText = loader.querySelector('.progress-percent');
-                const fillBar = loader.querySelector('.progress-fill');
-                
-                let fakeProgress = 0;
-                let fakeInterval = setInterval(() => {
-                    if (fakeProgress < 85) {
-                        fakeProgress += Math.floor(Math.random() * 4) + 1;
-                        if (percentText) percentText.textContent = `${fakeProgress}%`;
-                        if (fillBar) fillBar.style.width = `${fakeProgress}%`;
-                    }
-                }, 400);
-
-                viewer.addEventListener('progress', (event) => {
-                    const realPercent = Math.round(event.detail.totalProgress * 100);
-                    if (realPercent > 0 && realPercent > fakeProgress) {
-                        clearInterval(fakeInterval);
-                        if (percentText) percentText.textContent = `${realPercent}%`;
-                        if (fillBar) fillBar.style.width = `${realPercent}%`;
-                    }
-                });
-
-                viewer.addEventListener('load', () => {
-                    clearInterval(fakeInterval);
-                    if (percentText) percentText.textContent = `100%`;
-                    if (fillBar) fillBar.style.width = `100%`;
-                    
-                    setTimeout(() => {
-                        loader.style.opacity = '0';
-                        setTimeout(() => {
-                            loader.style.display = 'none';
-                        }, 500);
-                    }, 400);
-                });
-
-                viewer.addEventListener('error', (err) => {
-                    clearInterval(fakeInterval);
-                    console.error("Chyba při načítání modelu:", err);
-                    if (percentText) {
-                        percentText.textContent = `CHYBA DAT`;
-                        percentText.style.color = '#ff3333';
-                    }
-                    if (fillBar) fillBar.style.backgroundColor = '#ff3333';
-                });
-            }
+            const fillBar = viewer.previousElementSibling.querySelector('.progress-fill');
+            viewer.addEventListener('progress', (e) => {
+                const p = Math.round(e.detail.totalProgress * 100);
+                if(fillBar) fillBar.style.width = `${p}%`;
+            });
+            viewer.addEventListener('load', () => { 
+                viewer.previousElementSibling.style.display = 'none'; 
+            });
+            viewer.addEventListener('error', () => {
+                fillBar.style.backgroundColor = '#8CC63F'; // I při chybě zůstane zelená
+            });
         });
     </script>
-
 </body>
 </html>
