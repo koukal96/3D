@@ -28,6 +28,7 @@
             
             --font-display: 'Cinzel', serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --max-width: 1200px; /* Šířka pro PC */
         }
 
         * {
@@ -46,6 +47,12 @@
             overflow-x: hidden;
             letter-spacing: -0.01em;
         }
+        
+        /* Centrování obsahu na PC */
+        body {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
 
         .app-container {
             position: relative;
@@ -57,9 +64,10 @@
             gap: 40px; 
         }
 
+        /* --- NOVÉ VELKÉ LOGO (Záhlaví) --- */
         header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Vycentrování na střed */
             align-items: center;
             width: 100%;
             padding-bottom: 20px;
@@ -67,57 +75,29 @@
             z-index: 10;
         }
 
-        .brand-logo {
+        .large-logo-link {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-main);
-        }
-
-        .logo-placeholder {
-            width: 36px;
-            height: 36px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-
-        .logo-placeholder img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .brand-title {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .brand-title span {
-            color: var(--brand-primary);
-        }
-
-        .web-link {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
             text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
+        }
+        
+        .large-logo-link:hover {
+            transform: scale(1.02);
         }
 
-        .web-link:hover {
-            color: var(--brand-primary);
-            border-color: var(--brand-primary);
+        .large-logo {
+            max-width: 280px; /* Základní velikost pro mobily */
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Větší logo na počítači */
+        @media (min-width: 768px) {
+            .large-logo {
+                max-width: 400px; 
+            }
         }
 
         .gallery {
@@ -171,6 +151,7 @@
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.06), inset 0 0 20px rgba(0,0,0,0.02);
             overflow: hidden;
+            margin: 0 auto; /* Vycentrování rámečku s modelem */
         }
 
         model-viewer {
@@ -286,6 +267,7 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
+        /* --- PATIČKA --- */
         footer {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
@@ -373,11 +355,14 @@
             color: var(--brand-primary); 
         }
 
+        /* --- OPTIMALIZACE PRO POČÍTAČ (PC) --- */
         @media (min-width: 768px) {
             .app-container { padding: 40px; gap: 60px; }
-            .viewer-container { height: 60vh; }
+            .viewer-container { height: 60vh; max-width: 100%; } /* Zvětšený kontejner pro model */
             .model-heading { font-size: 3.5rem; letter-spacing: 12px; }
             .gallery { gap: 100px; }
+            
+            /* Patička vedle sebe místo pod sebou */
             footer {
                 grid-template-columns: 1fr 1fr;
                 align-items: center;
@@ -393,13 +378,9 @@
     <div class="app-container">
         
         <header>
-            <a href="https://www.strazce-urody.cz" class="brand-logo" target="_blank">
-                <div class="logo-placeholder">
-                    <img src="logo.PNG" alt="Logo" onerror="this.style.display='none'">
-                </div>
-                <div class="brand-title">3D <span>Modely</span></div>
+            <a href="https://www.strazce-urody.cz" class="large-logo-link" target="_blank">
+                <img src="logo.PNG" alt="Logo Strážce Úrody" class="large-logo" onerror="this.style.display='none'">
             </a>
-            <a href="https://www.strazce-urody.cz" class="web-link" target="_blank">strazce-urody.cz</a>
         </header>
 
         <div class="gallery">
