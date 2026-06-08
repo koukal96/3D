@@ -1,1 +1,424 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3D MOTELY — Prémiový Prohlížeč</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
+    <style>
+        :root {
+            --bg-dark: #050506;
+            --panel-bg: rgba(13, 13, 16, 0.75);
+            --accent-gold: #dfba73;
+            --accent-gold-dim: rgba(223, 186, 115, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #8a8a93;
+            --border-color: rgba(255, 255, 255, 0.04);
+            --font-display: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Reset a základní nastavení pro dokonalé zobrazení na mobilu */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            min-height: 100dvh; /* Podpora pro dynamický výřez mobilních prohlížečů */
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+
+        /* Celkový wrapper s jemným vinětovým efektem (stíny do krajů) */
+        .app-container {
+            position: relative;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: radial-gradient(circle at center, #0c0c10 0%, #050506 100%);
+            padding: 24px;
+        }
+
+        /* Luxusní horní lišta */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 10;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        /* Místo pro tvé logo - čtvercový formát, čisté ohraničení */
+        .logo-placeholder {
+            width: 36px;
+            height: 36px;
+            background: #111115;
+            border: 1px solid var(--accent-gold-dim);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .brand-title span {
+            color: var(--accent-gold);
+        }
+
+        .web-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .web-link:hover {
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        /* Hlavní prezentační sekce: Nadpis + Model hned pod ním */
+        .showroom-section {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 30px 0;
+        }
+
+        .model-title-wrapper {
+            text-align: center;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        /* Brutální, masivní luxusní nadpis */
+        .model-heading {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 400;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--text-main);
+            text-shadow: 0 0 40px rgba(255,255,255,0.05);
+        }
+
+        .model-subheading {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent-gold);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* Kontejner pro samotný 3D Model */
+        .viewer-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 50vh; /* Optimalizovaná výška pro mobil, aby zbyl prostor pro texty */
+            background: rgba(10, 10, 12, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6), 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+            --progress-bar-color: var(--accent-gold);
+        }
+
+        /* Minimalistický prémiový loader (kruh) */
+        .custom-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 5;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(223, 186, 115, 0.1);
+            border-top: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+        }
+
+        /* AR tlačítko vyladěné pro drahý vzhled */
+        .ar-trigger-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .ar-trigger-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        /* Luxusní a informačně nabitý spodní panel / Footer */
+        footer {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+
+        .footer-identity {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .author-title {
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .footer-contacts {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .contact-item:hover {
+            color: var(--text-main);
+        }
+
+        .contact-item span {
+            color: var(--accent-gold-dim);
+            font-size: 0.75rem;
+        }
+
+        .footer-credit {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+        }
+
+        .cuckoo-signature {
+            font-family: var(--font-display);
+            color: var(--text-main);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        /* Responzivní grid pro větší displeje (Tablety / PC) */
+        @media (min-width: 768px) {
+            .app-container { padding: 40px; }
+            .viewer-container { height: 60vh; }
+            .model-heading { font-size: 3.5rem; letter-spacing: 12px; }
+            footer {
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+                padding: 32px;
+            }
+            .footer-credit {
+                grid-column: span 2;
+            }
+            .footer-contacts {
+                align-items: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header>
+            <a href="https://www.strazce-urody.cz" class="brand-logo">
+                <div class="logo-placeholder">
+                    <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+                </div>
+                <div class="brand-title">3D <span>Motely</span></div>
+            </a>
+            <a href="https://www.strazce-urody.cz" class="web-link" target="_blank">strazce-urody.cz</a>
+        </header>
+
+        <section class="showroom-section">
+            <div class="model-title-wrapper">
+                <h2 class="model-heading">Mohelnice</h2>
+                <div class="model-subheading">Interaktivní 3D Replikace</div>
+            </div>
+
+            <div class="viewer-container">
+                <div class="custom-loader" id="loader">
+                    <div class="spinner"></div>
+                    <div class="loader-text">Zpracování 3D dat...</div>
+                </div>
+
+                <model-viewer 
+                    id="mohelnice-viewer"
+                    src="mohelnice.glb" 
+                    camera-controls 
+                    auto-rotate 
+                    interaction-prompt="none"
+                    shadow-intensity="1.5" 
+                    shadow-softness="0.8"
+                    exposure="1.1"
+                    environment-image="neutral"
+                    loading="eager"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look">
+                    
+                    <button class="ar-trigger-btn" slot="ar-button" onclick="this.parentElement.activateAR()">
+                        Zobrazit v AR (Realitě)
+                    </button>
+                </model-viewer>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-identity">
+                <div class="author-name">Bc. Jan Koukal</div>
+                <div class="author-title">Prohlížeč 3D modelů & Diagnostika</div>
+            </div>
+
+            <div class="footer-contacts">
+                <a href="tel:+420604353393" class="contact-item">
+                    <span>TEL</span> +420 604 353 393
+                </a>
+                <a href="mailto:koukal@strazce-urody.cz" class="contact-item">
+                    <span>EMAIL</span> koukal@strazce-urody.cz
+                </a>
+            </div>
+
+            <div class="footer-credit">
+                <div>© 2026 Strážce Úrody</div>
+                <div>Vytvořeno by <span class="cuckoo-signature">Cuckoo</span></div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const viewer = document.getElementById('mohelnice-viewer');
+        const loader = document.getElementById('loader');
+
+        viewer.addEventListener('load', () => {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+    </script>
+
+</body>
+</html>
