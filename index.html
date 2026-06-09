@@ -293,7 +293,7 @@
             padding: 30px 24px;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Vše na střed pro mobil */
+            align-items: center; 
             text-align: center;
             gap: 24px;
             width: 100%;
@@ -356,7 +356,7 @@
             border-top: 1px solid var(--border-color);
             padding-top: 20px;
             display: flex;
-            flex-direction: column; /* Na mobilu pod sebou */
+            flex-direction: column; 
             gap: 12px;
             align-items: center;
             width: 100%;
@@ -387,7 +387,6 @@
             .model-heading { font-size: 3.5rem; letter-spacing: 12px; }
             .gallery { gap: 100px; }
             
-            /* Patička na PC do mřížky - zarovnání ke stranám */
             footer {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -395,19 +394,10 @@
                 padding: 40px;
             }
             
-            .footer-identity {
-                align-items: flex-start;
-            }
+            .footer-identity { align-items: flex-start; }
+            .footer-contacts { align-items: flex-end; }
+            .contact-item { justify-content: flex-end; }
 
-            .footer-contacts {
-                align-items: flex-end;
-            }
-
-            .contact-item {
-                justify-content: flex-end;
-            }
-
-            /* Spodní čára s copyrightem a podpisem vedle sebe */
             .footer-credit {
                 grid-column: span 2;
                 flex-direction: row;
@@ -428,7 +418,6 @@
                 <img src="logo.PNG" alt="Logo Strážce Úrody" class="header-logo" onerror="this.style.display='none'">
             </a>
         </header>
-
 
         <div class="gallery">
             
@@ -464,7 +453,7 @@
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                         
-                        <button class="ar-trigger-btn" slot="ar-button" onclick="this.parentElement.activateAR()">
+                        <button class="ar-trigger-btn" slot="ar-button">
                             Zobrazit v AR
                         </button>
                     </model-viewer>
@@ -504,12 +493,51 @@
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                         
-                        <button class="ar-trigger-btn" slot="ar-button" onclick="this.parentElement.activateAR()">
+                        <button class="ar-trigger-btn" slot="ar-button">
                             Zobrazit v AR
                         </button>
                     </model-viewer>
                 </div>
                 <a href="https://www.control-point.eu" target="_blank" class="partner-link">Areál společnosti www.control-point.eu</a>
+            </section>
+
+            <section class="showroom-section">
+                <div class="model-title-wrapper">
+                    <h2 class="model-heading">Úsov</h2>
+                    <div class="model-subheading">3D model zámku Úsov</div>
+                </div>
+
+                <div class="viewer-container">
+                    <div class="custom-loader">
+                        <div class="spinner"></div>
+                        <div class="loader-text">
+                            <span>Načítání...</span>
+                            <span class="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <model-viewer 
+                        src="usov.glb" 
+                        alt="3D model zámku Úsov"
+                        camera-controls 
+                        auto-rotate 
+                        interaction-prompt="none"
+                        shadow-intensity="1" 
+                        shadow-softness="0.5"
+                        exposure="1"
+                        environment-image="neutral"
+                        loading="eager"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look">
+                        
+                        <button class="ar-trigger-btn" slot="ar-button">
+                            Zobrazit v AR
+                        </button>
+                    </model-viewer>
+                </div>
             </section>
 
         </div>
