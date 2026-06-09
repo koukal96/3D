@@ -20,23 +20,24 @@ jobs:
 
       - name: Optimalizace modelu pro AR
         run: |
-          # Optimalizace Věrovan
+          # Věrovany (řez na 5 % polygonů)
           if [ -f "verovany.glb" ]; then
-            gltf-transform simplify verovany.glb temp.glb --ratio 0.10 --error 0.01
+            gltf-transform simplify verovany.glb temp.glb --ratio 0.05 --error 0.01
             gltf-transform resize temp.glb verovany-ar.glb --width 1024 --height 1024
             rm temp.glb
           fi
 
-          # Optimalizace Mohelnice (Kostel)
+          # Mohelnice Kostel (řez na 3 % polygonů)
           if [ -f "kostel.glb" ]; then
-            gltf-transform simplify kostel.glb temp.glb --ratio 0.10 --error 0.01
+            gltf-transform simplify kostel.glb temp.glb --ratio 0.03 --error 0.01
             gltf-transform resize temp.glb kostel-ar.glb --width 1024 --height 1024
             rm temp.glb
           fi
 
-          # Optimalizace Úsova (Zámek)
+          # Úsov Zámek (maximální řez na 2 % polygonů a extra paměť)
           if [ -f "usov.glb" ]; then
-            gltf-transform simplify usov.glb temp.glb --ratio 0.10 --error 0.01
+            export NODE_OPTIONS="--max-old-space-size=7168"
+            gltf-transform simplify usov.glb temp.glb --ratio 0.02 --error 0.01
             gltf-transform resize temp.glb usov-ar.glb --width 1024 --height 1024
             rm temp.glb
           fi
@@ -46,5 +47,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add *-ar.glb
-          git commit -m "Vygenerovany odlehcene AR verze modelu" || echo "Zadne zmeny k ulozeni"
+          git commit -m "Ultra-odlehcene AR verze pod 25MB limit" || echo "Zadne zmeny"
           git push
