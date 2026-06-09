@@ -149,6 +149,9 @@
             width: 100%;
             height: 100%;
             outline: none;
+            --poster-color: transparent;
+            --progress-bar-color: transparent;
+            --progress-bar-height: 0px;
         }
 
         .partner-link {
@@ -159,6 +162,11 @@
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .partner-link:hover {
+            color: var(--brand-primary);
         }
 
         .custom-loader {
@@ -184,6 +192,7 @@
             border-top: 2px solid var(--brand-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin-bottom: 4px;
         }
 
         @keyframes spin {
@@ -202,9 +211,25 @@
             width: 100%;
         }
 
-        .progress-percent { color: var(--brand-primary); font-weight: 700; }
-        .progress-track { width: 100%; height: 2px; background: var(--border-color); border-radius: 2px; overflow: hidden; }
-        .progress-fill { width: 0%; height: 100%; background: var(--brand-primary); transition: width 0.2s ease-out; }
+        .progress-percent {
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 2px;
+            background: var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--brand-primary);
+            transition: width 0.2s ease-out;
+        }
 
         .ar-trigger-btn {
             position: absolute;
@@ -222,12 +247,21 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .ar-trigger-btn:hover {
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
         footer {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 30px 24px;
@@ -237,16 +271,20 @@
             text-align: center;
             gap: 24px;
             width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            z-index: 10;
         }
 
         .footer-identity { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .author-name { font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
         .author-title { font-size: 0.75rem; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
         .footer-contacts { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .contact-item { display: flex; align-items: center; gap: 10px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+        .contact-item { display: flex; align-items: center; gap: 10px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s ease; font-weight: 500; }
+        .contact-item:hover { color: var(--text-main); }
         .contact-item span { color: var(--brand-primary); font-size: 0.75rem; font-weight: 700; }
-        .footer-credit { border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); }
-        .cuckoo-signature { font-family: var(--font-display); color: #b59453; font-weight: 700; text-decoration: none; }
+        .footer-credit { border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+        .cuckoo-signature { font-family: var(--font-display); color: #b59453; font-weight: 700; letter-spacing: 2px; text-decoration: none; transition: color 0.3s ease; }
+        .cuckoo-signature:hover { color: var(--brand-primary); }
 
         @media (min-width: 768px) {
             .app-container { padding: 40px; gap: 60px; }
@@ -258,7 +296,7 @@
             .footer-identity { align-items: flex-start; }
             .footer-contacts { align-items: flex-end; }
             .contact-item { justify-content: flex-end; }
-            .footer-credit { grid-column: span 2; flex-direction: row; justify-content: space-between; }
+            .footer-credit { grid-column: span 2; flex-direction: row; justify-content: space-between; padding-top: 24px; margin-top: 10px; }
         }
     </style>
 </head>
@@ -291,10 +329,12 @@
                     <model-viewer 
                         id="kostel-viewer"
                         src="kostel.glb" 
+                        ios-src="kostel-ar.usdz" 
                         alt="3D model Kostel svatého Tomáše z Canterbury"
                         camera-controls auto-rotate interaction-prompt="none"
                         shadow-intensity="1" shadow-softness="0.5" exposure="1" environment-image="neutral" loading="eager"
                         ar ar-modes="webxr scene-viewer quick-look">
+                        
                         <button class="ar-trigger-btn" slot="ar-button" onclick="triggerSmartAR('kostel-viewer', 'kostel-ar.glb', 'kostel.glb')">
                             Zobrazit v AR
                         </button>
@@ -318,11 +358,13 @@
                     <model-viewer 
                         id="verovany-viewer"
                         src="verovany.glb" 
+                        ios-src="verovany-ar.usdz" 
                         alt="3D model Control Point"
                         camera-controls auto-rotate interaction-prompt="none"
                         shadow-intensity="1.5" camera-orbit="20deg 50deg 250%" min-camera-orbit="auto auto 90deg"
                         exposure="1" environment-image="neutral" loading="eager"
                         ar ar-modes="webxr scene-viewer quick-look">
+                        
                         <button class="ar-trigger-btn" slot="ar-button" onclick="triggerSmartAR('verovany-viewer', 'verovany-ar.glb', 'verovany.glb')">
                             Zobrazit v AR
                         </button>
@@ -347,10 +389,12 @@
                     <model-viewer 
                         id="usov-viewer"
                         src="usov.glb" 
+                        ios-src="usov-ar.usdz" 
                         alt="3D model zámku Úsov"
                         camera-controls auto-rotate interaction-prompt="none"
                         shadow-intensity="1" shadow-softness="0.5" exposure="1" environment-image="neutral" loading="eager"
                         ar ar-modes="webxr scene-viewer quick-look">
+                        
                         <button class="ar-trigger-btn" slot="ar-button" onclick="triggerSmartAR('usov-viewer', 'usov-ar.glb', 'usov.glb')">
                             Zobrazit v AR
                         </button>
@@ -378,14 +422,14 @@
     </div>
 
     <script>
-        // SMART AR HYBRIDNÍ PŘEPÍNAČ
+        // SMART AR HYBRIDNÍ PŘEPÍNAČ PRO ANDROID
         function triggerSmartAR(viewerId, arSrc, originalSrc) {
             const viewer = document.getElementById(viewerId);
             if (viewer) {
-                // Okamžitě podvrhneme odlehčený model pro AR engine iPhonu
+                // Přepne na odlehčený model pro bezproblémové AR (na iOS toto nevadí, použije se ios-src)
                 viewer.src = arSrc;
                 
-                // Jakmile uživatel ukončí AR režim, vrátíme zpět ultra kvalitní model pro web
+                // Návrat do plné obří kvality po ukončení AR
                 const resetModel = (event) => {
                     if (event.detail.status === 'not-presenting') {
                         viewer.src = originalSrc;
@@ -396,7 +440,7 @@
             }
         }
 
-        // MANAGEMENT LOADERŮ (ZŮSTÁVÁ PŮVODNÍ FUNKČNÍ)
+        // MANAGEMENT LOADERŮ
         document.querySelectorAll('model-viewer').forEach(viewer => {
             const loader = viewer.previousElementSibling;
             if (loader && loader.classList.contains('custom-loader')) {
