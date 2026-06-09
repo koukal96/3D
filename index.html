@@ -63,7 +63,6 @@
             gap: 40px; 
         }
 
-        /* --- ZÁHLAVÍ S LOGEM VLEVO --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -72,20 +71,6 @@
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
             z-index: 10;
-        }
-
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-main);
-        }
-
-        .header-logo {
-            height: 30px; 
-            width: auto;
-            object-fit: contain;
         }
 
         .brand-title {
@@ -100,22 +85,12 @@
             color: var(--brand-primary);
         }
 
-        .web-link {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
+        .header-logo {
+            height: 30px; 
+            width: auto;
+            object-fit: contain;
         }
 
-        .web-link:hover {
-            color: var(--brand-primary);
-            border-color: var(--brand-primary);
-        }
-
-        /* --- GALERIE MODELŮ --- */
         .gallery {
             flex-grow: 1;
             display: flex;
@@ -174,9 +149,6 @@
             width: 100%;
             height: 100%;
             outline: none;
-            --poster-color: transparent;
-            --progress-bar-color: transparent;
-            --progress-bar-height: 0px;
         }
 
         .partner-link {
@@ -187,11 +159,6 @@
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .partner-link:hover {
-            color: var(--brand-primary);
         }
 
         .custom-loader {
@@ -217,7 +184,6 @@
             border-top: 2px solid var(--brand-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 4px;
         }
 
         @keyframes spin {
@@ -236,25 +202,9 @@
             width: 100%;
         }
 
-        .progress-percent {
-            color: var(--brand-primary);
-            font-weight: 700;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 2px;
-            background: var(--border-color);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--brand-primary);
-            transition: width 0.2s ease-out;
-        }
+        .progress-percent { color: var(--brand-primary); font-weight: 700; }
+        .progress-track { width: 100%; height: 2px; background: var(--border-color); border-radius: 2px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: var(--brand-primary); transition: width 0.2s ease-out; }
 
         .ar-trigger-btn {
             position: absolute;
@@ -272,22 +222,12 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        .ar-trigger-btn:hover {
-            border-color: var(--brand-primary);
-            color: var(--brand-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-        }
-
-        /* --- NOVĚ VYLADĚNÁ PATIČKA (MOBILNÍ ZÁKLAD) --- */
         footer {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 30px 24px;
@@ -297,114 +237,28 @@
             text-align: center;
             gap: 24px;
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            z-index: 10;
         }
 
-        .footer-identity {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
+        .footer-identity { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .author-name { font-size: 1.15rem; font-weight: 600; color: var(--text-main); }
+        .author-title { font-size: 0.75rem; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .footer-contacts { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .contact-item { display: flex; align-items: center; gap: 10px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+        .contact-item span { color: var(--brand-primary); font-size: 0.75rem; font-weight: 700; }
+        .footer-credit { border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; flex-direction: column; gap: 12px; align-items: center; width: 100%; font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); }
+        .cuckoo-signature { font-family: var(--font-display); color: #b59453; font-weight: 700; text-decoration: none; }
 
-        .author-name {
-            font-size: 1.15rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            color: var(--text-main);
-        }
-
-        .author-title {
-            font-size: 0.75rem;
-            color: var(--brand-primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .footer-contacts {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-            font-weight: 500;
-        }
-
-        .contact-item:hover {
-            color: var(--text-main);
-        }
-
-        .contact-item span {
-            color: var(--brand-primary);
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .footer-credit {
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column; 
-            gap: 12px;
-            align-items: center;
-            width: 100%;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-        }
-
-        .cuckoo-signature {
-            font-family: var(--font-display);
-            color: #b59453; 
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .cuckoo-signature:hover {
-            color: var(--brand-primary); 
-        }
-
-        /* --- OPTIMALIZACE PRO POČÍTAČ (PC) --- */
         @media (min-width: 768px) {
             .app-container { padding: 40px; gap: 60px; }
             .header-logo { height: 45px; } 
             .viewer-container { height: 60vh; max-width: 100%; } 
             .model-heading { font-size: 3.5rem; letter-spacing: 12px; }
             .gallery { gap: 100px; }
-            
-            footer {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                text-align: left;
-                padding: 40px;
-            }
-            
+            footer { display: grid; grid-template-columns: 1fr 1fr; text-align: left; padding: 40px; }
             .footer-identity { align-items: flex-start; }
             .footer-contacts { align-items: flex-end; }
             .contact-item { justify-content: flex-end; }
-
-            .footer-credit {
-                grid-column: span 2;
-                flex-direction: row;
-                justify-content: space-between;
-                padding-top: 24px;
-                margin-top: 10px;
-            }
+            .footer-credit { grid-column: span 2; flex-direction: row; justify-content: space-between; }
         }
     </style>
 </head>
@@ -430,30 +284,18 @@
                 <div class="viewer-container">
                     <div class="custom-loader">
                         <div class="spinner"></div>
-                        <div class="loader-text">
-                            <span>Načítání...</span>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill"></div>
-                        </div>
+                        <div class="loader-text"><span>Načítání...</span><span class="progress-percent">0%</span></div>
+                        <div class="progress-track"><div class="progress-fill"></div></div>
                     </div>
 
                     <model-viewer 
+                        id="kostel-viewer"
                         src="kostel.glb" 
                         alt="3D model Kostel svatého Tomáše z Canterbury"
-                        camera-controls 
-                        auto-rotate 
-                        interaction-prompt="none"
-                        shadow-intensity="1" 
-                        shadow-softness="0.5"
-                        exposure="1"
-                        environment-image="neutral"
-                        loading="eager"
-                        ar
-                        ar-modes="webxr scene-viewer quick-look">
-                        
-                        <button class="ar-trigger-btn" slot="ar-button">
+                        camera-controls auto-rotate interaction-prompt="none"
+                        shadow-intensity="1" shadow-softness="0.5" exposure="1" environment-image="neutral" loading="eager"
+                        ar ar-modes="webxr scene-viewer quick-look">
+                        <button class="ar-trigger-btn" slot="ar-button" onclick="triggerSmartAR('kostel-viewer', 'kostel-ar.glb', 'kostel.glb')">
                             Zobrazit v AR
                         </button>
                     </model-viewer>
@@ -462,38 +304,26 @@
 
             <section class="showroom-section">
                 <div class="model-title-wrapper">
-                    <h2 class="model-heading">Věrovany </h2>
+                    <h2 class="model-heading">Věrovany</h2>
                     <div class="model-subheading">Logistický areál Control Point s.r.o.</div>
                 </div>
 
                 <div class="viewer-container">
                     <div class="custom-loader">
                         <div class="spinner"></div>
-                        <div class="loader-text">
-                            <span>Načítání...</span>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill"></div>
-                        </div>
+                        <div class="loader-text"><span>Načítání...</span><span class="progress-percent">0%</span></div>
+                        <div class="progress-track"><div class="progress-fill"></div></div>
                     </div>
 
                     <model-viewer 
+                        id="verovany-viewer"
                         src="verovany.glb" 
                         alt="3D model Control Point"
-                        camera-controls 
-                        auto-rotate 
-                        interaction-prompt="none"
-                        shadow-intensity="1.5" 
-                        camera-orbit="20deg 50deg 250%"
-                        min-camera-orbit="auto auto 90deg"
-                        exposure="1"
-                        environment-image="neutral"
-                        loading="eager"
-                        ar
-                        ar-modes="webxr scene-viewer quick-look">
-                        
-                        <button class="ar-trigger-btn" slot="ar-button">
+                        camera-controls auto-rotate interaction-prompt="none"
+                        shadow-intensity="1.5" camera-orbit="20deg 50deg 250%" min-camera-orbit="auto auto 90deg"
+                        exposure="1" environment-image="neutral" loading="eager"
+                        ar ar-modes="webxr scene-viewer quick-look">
+                        <button class="ar-trigger-btn" slot="ar-button" onclick="triggerSmartAR('verovany-viewer', 'verovany-ar.glb', 'verovany.glb')">
                             Zobrazit v AR
                         </button>
                     </model-viewer>
@@ -510,30 +340,18 @@
                 <div class="viewer-container">
                     <div class="custom-loader">
                         <div class="spinner"></div>
-                        <div class="loader-text">
-                            <span>Načítání...</span>
-                            <span class="progress-percent">0%</span>
-                        </div>
-                        <div class="progress-track">
-                            <div class="progress-fill"></div>
-                        </div>
+                        <div class="loader-text"><span>Načítání...</span><span class="progress-percent">0%</span></div>
+                        <div class="progress-track"><div class="progress-fill"></div></div>
                     </div>
 
                     <model-viewer 
+                        id="usov-viewer"
                         src="usov.glb" 
                         alt="3D model zámku Úsov"
-                        camera-controls 
-                        auto-rotate 
-                        interaction-prompt="none"
-                        shadow-intensity="1" 
-                        shadow-softness="0.5"
-                        exposure="1"
-                        environment-image="neutral"
-                        loading="eager"
-                        ar
-                        ar-modes="webxr scene-viewer quick-look">
-                        
-                        <button class="ar-trigger-btn" slot="ar-button">
+                        camera-controls auto-rotate interaction-prompt="none"
+                        shadow-intensity="1" shadow-softness="0.5" exposure="1" environment-image="neutral" loading="eager"
+                        ar ar-modes="webxr scene-viewer quick-look">
+                        <button class="ar-trigger-btn" slot="ar-button" onclick="triggerSmartAR('usov-viewer', 'usov-ar.glb', 'usov.glb')">
                             Zobrazit v AR
                         </button>
                     </model-viewer>
@@ -547,16 +365,10 @@
                 <div class="author-name">Bc. Jan Koukal</div>
                 <div class="author-title">Strážce úrody</div>
             </div>
-
             <div class="footer-contacts">
-                <a href="tel:+420604353393" class="contact-item">
-                    <span>TEL</span> +420 604 353 393
-                </a>
-                <a href="mailto:koukal@strazce-urody.cz" class="contact-item">
-                    <span>EMAIL</span> koukal@strazce-urody.cz
-                </a>
+                <a href="tel:+420604353393" class="contact-item"><span>TEL</span> +420 604 353 393</a>
+                <a href="mailto:koukal@strazce-urody.cz" class="contact-item"><span>EMAIL</span> koukal@strazce-urody.cz</a>
             </div>
-
             <div class="footer-credit">
                 <div>© 2026 Strážce Úrody</div>
                 <div>Vytvořeno by <a href="https://koukal96.github.io/Cuckoo/" target="_blank" class="cuckoo-signature">Cuckoo</a></div>
@@ -566,9 +378,27 @@
     </div>
 
     <script>
+        // SMART AR HYBRIDNÍ PŘEPÍNAČ
+        function triggerSmartAR(viewerId, arSrc, originalSrc) {
+            const viewer = document.getElementById(viewerId);
+            if (viewer) {
+                // Okamžitě podvrhneme odlehčený model pro AR engine iPhonu
+                viewer.src = arSrc;
+                
+                // Jakmile uživatel ukončí AR režim, vrátíme zpět ultra kvalitní model pro web
+                const resetModel = (event) => {
+                    if (event.detail.status === 'not-presenting') {
+                        viewer.src = originalSrc;
+                        viewer.removeEventListener('ar-status', resetModel);
+                    }
+                };
+                viewer.addEventListener('ar-status', resetModel);
+            }
+        }
+
+        // MANAGEMENT LOADERŮ (ZŮSTÁVÁ PŮVODNÍ FUNKČNÍ)
         document.querySelectorAll('model-viewer').forEach(viewer => {
             const loader = viewer.previousElementSibling;
-            
             if (loader && loader.classList.contains('custom-loader')) {
                 const percentText = loader.querySelector('.progress-percent');
                 const fillBar = loader.querySelector('.progress-fill');
@@ -595,26 +425,19 @@
                     clearInterval(fakeInterval);
                     if (percentText) percentText.textContent = `100%`;
                     if (fillBar) fillBar.style.width = `100%`;
-                    
                     setTimeout(() => {
                         loader.style.opacity = '0';
-                        setTimeout(() => {
-                            loader.style.display = 'none';
-                        }, 500);
+                        setTimeout(() => { loader.style.display = 'none'; }, 500);
                     }, 400);
                 });
 
                 viewer.addEventListener('error', () => {
                     clearInterval(fakeInterval);
-                    if (percentText) {
-                        percentText.textContent = `CHYBA DAT`;
-                        percentText.style.color = '#ff3333';
-                    }
+                    if (percentText) { percentText.textContent = `CHYBA DAT`; percentText.style.color = '#ff3333'; }
                     if (fillBar) fillBar.style.backgroundColor = '#ff3333';
                 });
             }
         });
     </script>
-
 </body>
 </html>
