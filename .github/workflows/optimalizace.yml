@@ -1,4 +1,4 @@
-name: Hybridni Optimalizace pro AR
+name: Optimalizace Usov pro AR
 
 on:
   workflow_dispatch:
@@ -18,34 +18,23 @@ jobs:
       - name: Instalace 3D nastroju
         run: npm install -g @gltf-transform/cli meshoptimizer
 
-      - name: Optimalizace modelu pro AR
+      - name: Optimalizace Usov (Extremni rez)
         run: |
-          # Věrovany (řez na 5 % polygonů)
-          if [ -f "verovany.glb" ]; then
-            gltf-transform simplify verovany.glb temp.glb --ratio 0.05 --error 0.01
-            gltf-transform resize temp.glb verovany-ar.glb --width 1024 --height 1024
-            rm temp.glb
-          fi
-
-          # Mohelnice Kostel (řez na 3 % polygonů)
-          if [ -f "kostel.glb" ]; then
-            gltf-transform simplify kostel.glb temp.glb --ratio 0.03 --error 0.01
-            gltf-transform resize temp.glb kostel-ar.glb --width 1024 --height 1024
-            rm temp.glb
-          fi
-
-          # Úsov Zámek (maximální řez na 2 % polygonů a extra paměť)
           if [ -f "usov.glb" ]; then
             export NODE_OPTIONS="--max-old-space-size=7168"
-            gltf-transform simplify usov.glb temp.glb --ratio 0.02 --error 0.01
+            # Extrémní snížení geometrie na 0,5 % pro splnění limitu 25 MB u USDZ
+            gltf-transform simplify usov.glb temp.glb --ratio 0.005 --error 0.01
+            # Zachování textur na 1024x1024
             gltf-transform resize temp.glb usov-ar.glb --width 1024 --height 1024
             rm temp.glb
+          else
+            echo "Soubor usov.glb nenalezen!"
           fi
 
-      - name: Nahrani optimalizovanych verzi na GitHub
+      - name: Nahrani na GitHub
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add *-ar.glb
-          git commit -m "Ultra-odlehcene AR verze pod 25MB limit" || echo "Zadne zmeny"
+          git add usov-ar.glb
+          git commit -m "Ultra-odlehceny Usov pro AR (pod 25MB)" || echo "Zadne zmeny"
           git push
