@@ -18,16 +18,19 @@ jobs:
       - name: Instalace 3D nastroju
         run: npm install -g @gltf-transform/cli meshoptimizer
 
-      - name: Optimalizace Usov (Extremni rez)
+           - name: Optimalizace Usov (Jaderny rez)
         run: |
           if [ -f "usov.glb" ]; then
             export NODE_OPTIONS="--max-old-space-size=7168"
-            gltf-transform simplify usov.glb temp.glb --ratio 0.0005 --error 0.01
-            gltf-transform resize temp.glb usov-ar.glb --width 1024 --height 1024
-            rm temp.glb
-          else
-            echo "Soubor usov.glb nebyl nalezen!"
+            # 1. Brutalni simplifikace geometrie
+            gltf-transform simplify usov.glb temp1.glb --ratio 0.0005 --error 0.1
+            # 2. Odstraneni vseho, co neni geometrie a textura
+            gltf-transform prune temp1.glb temp2.glb
+            # 3. Zmenseni textur a prevod
+            gltf-transform resize temp2.glb usov-ar.glb --width 1024 --height 1024
+            rm temp1.glb temp2.glb
           fi
+
 
       - name: Nahrani na GitHub
         run: |
