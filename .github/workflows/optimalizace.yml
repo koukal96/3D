@@ -20,7 +20,7 @@ jobs:
 
       - name: Optimalizace Usov (Jaderny rez)
         run: |
-          if [ -f "usov.glb" ]; then
+          if [ -f "usov-ar.glb" ]; then
             export NODE_OPTIONS="--max-old-space-size=7168"
             gltf-transform simplify usov.glb temp1.glb --ratio 0.0005 --error 0.1
             gltf-transform prune temp1.glb temp2.glb
@@ -34,6 +34,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add usov-ar.glb
+          git add usov-1ar.glb
           git commit -m "Ultra-odlehceny Usov pro AR (pod 25MB)" || echo "Zadne zmeny"
           git push
