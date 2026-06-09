@@ -1,0 +1,50 @@
+name: Hybridni Optimalizace pro AR
+
+on:
+  workflow_dispatch:
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stazeni kodu
+        uses: actions/checkout@v3
+
+      - name: Instalace Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Instalace 3D nastroju
+        run: npm install -g @gltf-transform/cli meshoptimizer
+
+      - name: Optimalizace modelu pro AR
+        run: |
+          # Optimalizace Věrovan
+          if [ -f "verovany.glb" ]; then
+            gltf-transform simplify verovany.glb temp.glb --ratio 0.10 --error 0.01
+            gltf-transform resize temp.glb verovany-ar.glb --width 1024 --height 1024
+            rm temp.glb
+          fi
+
+          # Optimalizace Mohelnice (Kostel)
+          if [ -f "kostel.glb" ]; then
+            gltf-transform simplify kostel.glb temp.glb --ratio 0.10 --error 0.01
+            gltf-transform resize temp.glb kostel-ar.glb --width 1024 --height 1024
+            rm temp.glb
+          fi
+
+          # Optimalizace Úsova (Zámek)
+          if [ -f "usov.glb" ]; then
+            gltf-transform simplify usov.glb temp.glb --ratio 0.10 --error 0.01
+            gltf-transform resize temp.glb usov-ar.glb --width 1024 --height 1024
+            rm temp.glb
+          fi
+
+      - name: Nahrani optimalizovanych verzi na GitHub
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add *-ar.glb
+          git commit -m "Vygenerovany odlehcene AR verze modelu" || echo "Zadne zmeny k ulozeni"
+          git push
